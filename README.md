@@ -2,7 +2,7 @@
 
 Esta guía tratará sobre como crear desde cero un módulo personalizado en Odoo que use Python como lenguaje.
 
-### Comenzamos
+## Comenzamos
 Para empezar debermos levantar nuesto Odoo, en nuestro caso usaremos Docker para crear dos contendores, uno para Odoo y otro para nuestra base de datos (Postgres).
 
 Necesitamos que se cree con una carpeta dedicada que será la que contenga nuestro modulo.
@@ -44,7 +44,7 @@ Para poder trabajar con él necesitamos darle permisos a los archivos del módul
 ```
 chmod -R 777 openacademy/
 ```
-> [!NOTE]  
+> [!TIP]  
 > Para comprobar que tenemos los permisos adecuados podemos ejecutar el comando `ls -l` y en los ficheros `py` deberian 
 aparecen los siguientes permisos: `-rwxrwxrwx`
 
@@ -52,10 +52,28 @@ aparecen los siguientes permisos: `-rwxrwxrwx`
 
 Una vez creado nuestro módulo pasaremos a configurarlo.
 
-En `__manifest__.py` podremos cambiar el nombre, descripcción, autor... que aparecerán en la web al buscar el módulo.
-### VIEWIMAGE
+En `__manifest__.py` podremos cambiar el nombre, descripción, autor... que aparecerán en la web al buscar el módulo.
 
-Añadido a eso podremos cambiar la versión de este, cosa que tendremos que cambiar cada vez que hagamos un cambio para asegurarnos que se suba correctamente.
+```python
+    'name': "OpenAcademy",
+
+    'summary': """
+        Abierta academia modulo""",
+
+    'description': """
+        Abierta academia modulo por Samuel Gardón Prieto
+    """,
+
+    'author': "Samuel",
+    'website': "https://www.yourcompany.com",
+
+    # Categories can be used to filter modules in modules listing
+    # Check https://github.com/odoo/odoo/blob/16.0/odoo/addons/base/data/ir_module_category_data.xml
+    # for the full list
+    'category': 'Uncategorized',
+    'version': '0.5',
+```
+Añadido a eso podremos cambiar la **versión** de este, cosa que tendremos que cambiar cada vez que hagamos un cambio para asegurarnos que se suba correctamente.
 
 ### Crear modelo
 
@@ -109,15 +127,19 @@ Para crear una vista de la tabla iremos al archivo `views.xml` de la carpeta `vi
 ---
 
 ```xml
+<!-- Top menu item -->
+
 <menuitem name="openacademy" id="openacademy.menu_root"/>
 
 <!-- menu categories -->
+
 <menuitem name="Menu 1" id="openacademy.menu_1" parent="openacademy.menu_root"/>
 <menuitem name="Menu 2" id="openacademy.menu_2" parent="openacademy.menu_root"/>
 
 <!-- actions -->
+
 <menuitem name="List" id="openacademy.menu_1_list" parent="openacademy.menu_1"
-          action="openacademy.action_window"/>
+        action="openacademy.action_window"/>
 ```
 * Descomentamos `top menu item`, `menu categories` y 1 `action`.
 
@@ -129,7 +151,14 @@ El ver nuestra vista tiene que ser configurado. Para ello en la carpeta `securit
 ```csv
 access_openacademy_openacademy,openacademy.openacademy,model_test_model,base.group_user,1,1,1,1
 ```
-Cambiaremos `model_openacademy` a `model_NUESTRA-TABLA`.
+Cambiaremos `model_openacademy` a `model_NUESTRA-TABLA`. EJ: `model_test_model`.
+
+Y **por último** en el archivo `__manifest__.py` descomentaremos la siguiente línea de código.
+```python
+'data': [
+    'security/ir.model.access.csv', # Esta línea
+],
+```
 
 ## Instalar el módulo
 
@@ -140,15 +169,15 @@ docker compose restart
 ```
 En Odoo, borramos el filtro de 'Apps' y buscaremos nuestro módulo.
 
-##### IMAGE
+![Busqueda de OpenAcademy](imagenes/openacademy-buscar.png)
 
 > [!IMPORTANT]  
 > En caso de haber instalado el módulo previamente a los cambios tendremos que actualizarlo para disponer de ellos. Para ello hacer click en los tres puntos y en 'Upgrade'.
 
-##### IMAGE
+![Entrada a OpenAcademy](imagenes/openacademy-entrar.png)
 
 Una vez hecho esto sí nos vamos a la parte superior izquierda deberia salirnos un acceso a nuestro módulo.
 
-##### IMAGE
+![Vista de OpenAcademy](imagenes/openacademy-vista.png)
 
 Dentro de esta vista podremos modificar campos de la tabla, añadir campo, borrar...
