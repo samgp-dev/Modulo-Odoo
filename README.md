@@ -78,6 +78,7 @@ Añadido a eso podremos cambiar la **versión** de este, cosa que tendremos que 
 ### Crear modelo
 
 En la carpeta `model` cambiaremos el nombre al archivo `model` a `test_model` y modificaremos el archivo para crear nuestra tabla.
+
 ```python
 from odoo import fields, models
 
@@ -154,10 +155,11 @@ access_openacademy_openacademy,openacademy.openacademy,model_test_model,base.gro
 Cambiaremos `model_openacademy` a `model_NUESTRA-TABLA`. EJ: `model_test_model`.
 
 Y **por último** en el archivo `__manifest__.py` descomentaremos la siguiente línea de código.
+
 ```python
-'data': [
-    'security/ir.model.access.csv', # Esta línea
-],
+      'data': [
+          'security/ir.model.access.csv', # Esta línea
+      ],
 ```
 
 ## Instalar el módulo
@@ -181,3 +183,24 @@ Una vez hecho esto sí nos vamos a la parte superior izquierda deberia salirnos 
 ![Vista de OpenAcademy](imagenes/openacademy-vista.png)
 
 Dentro de esta vista podremos modificar campos de la tabla, añadir campo, borrar...
+
+![Creación usuario](imagenes/openacademy-crear.png)
+
+Ejemplo de creación de usuario.
+
+## Ver la base de datos desde el IDE
+
+Para poder acceder a la base de datos desde nuestro IDE (PyCharm) debemos seguir los siguientes pasos.
+
+En la parte derecha de nuestro IDE tenemos una ventana ![Database Icon](imagenes/pycharm-database-icon.png) `Database` en la que podremos añadir una conexión a una base de datos haciendo clic en el icono de `+`
+Seleccionamos nuestro tipo de base de datos, añadimos la base de datos asignada a Odoo y seleccionamos la tabla `public` si no está seleccionado.
+
+![DATABASE](imagenes/pycharm-database.png)
+
+Una vez hecho esto, entraremos en la carpeta de esta base de datos `base-de-datos/public/tables/nuestra-tabla`
+EJ: `odoo-db/public/tables/test_model`.
+
+Con esto podremos ver los campos de esa tabla:
+![Tabla](imagenes/pycharm-tabla.png)
+
+
